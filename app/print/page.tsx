@@ -45,7 +45,11 @@ export default function PrintPage() {
             <div className="rounded-lg bg-muted p-3">
               <div className="flex items-center gap-2">
                 <Check className="h-4 w-4 text-primary" />
-                <p className="text-sm">Multiple file formats supported</p>
+                <p className="text-sm">All print & design formats supported</p>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <Check className="h-4 w-4 text-primary" />
+                <p className="text-sm">Maintains design quality & layers</p>
               </div>
               <div className="flex items-center gap-2 mt-1">
                 <Check className="h-4 w-4 text-primary" />

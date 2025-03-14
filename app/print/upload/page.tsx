@@ -103,19 +103,42 @@ export default function UploadPage() {
   }
 
   const getValidFileTypes = (category: string) => {
-    switch (category) {
-      case "photos":
-        return ["image/jpeg", "image/png", "image/gif"]
-      case "documents":
-        return [
-          "application/pdf",
-          "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "text/plain",
-        ]
-      default:
-        return ["application/pdf", "image/jpeg", "image/png"]
-    }
+    // Support all print and design format files regardless of category
+    return [
+      // Document formats
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "text/plain",
+      "application/rtf",
+      "application/vnd.oasis.opendocument.text",
+      
+      // Image formats
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/tiff",
+      "image/bmp",
+      "image/svg+xml",
+      "image/webp",
+      
+      // Design formats
+      "application/postscript",
+      "application/illustrator",
+      "application/x-photoshop",
+      "image/vnd.adobe.photoshop",
+      "application/vnd.ms-publisher",
+      "application/x-indesign",
+      "application/vnd.adobe.indesign-idml-package",
+      
+      // Presentation formats
+      "application/vnd.ms-powerpoint",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      
+      // Spreadsheet formats (which might include design layouts)
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ]
   }
 
   const removeFile = (index: number) => {
@@ -201,7 +224,7 @@ export default function UploadPage() {
                       <FileUp className="mb-3 h-12 w-12 text-muted-foreground" />
                       <h3 className="mb-1 text-lg font-medium">Drop files here or click to upload</h3>
                       <p className="mb-4 text-sm text-center text-muted-foreground">
-                        Support for PDF, DOC, DOCX, JPG, PNG files
+                        Supports all print and design formats including PDF, DOC, DOCX, JPG, PNG, AI, PSD, INDD, TIFF, and more
                       </p>
                       <Button onClick={() => document.getElementById("file-upload")?.click()}>
                         Choose Files
@@ -212,7 +235,7 @@ export default function UploadPage() {
                         multiple
                         onChange={handleFileInput}
                         className="hidden"
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.tiff,.tif,.bmp,.svg,.webp,.ai,.psd,.eps,.pub,.indd,.idml,.ppt,.pptx,.xls,.xlsx,.rtf,.odt"
                       />
                     </>
                   ) : (
@@ -316,7 +339,7 @@ export default function UploadPage() {
                 <h3 className="mb-3 text-xl font-medium">Selected Category</h3>
                 <div className="rounded-lg border p-4">
                   <div className="flex items-center gap-3">
-                    {getCategoryIcon(category)}
+                    {getCategoryIcon()}
                     <div>
                       <p className="font-medium">{getCategoryTitle()}</p>
                       <p className="text-sm text-muted-foreground">
@@ -340,6 +363,10 @@ export default function UploadPage() {
                     <li className="flex items-start gap-2">
                       <Check className="mt-1 h-4 w-4 text-green-600" />
                       <span className="text-sm">For multi-page documents, use PDF format</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="mt-1 h-4 w-4 text-green-600" />
+                      <span className="text-sm">Design files (AI, PSD, INDD) will maintain layers and quality</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Check className="mt-1 h-4 w-4 text-green-600" />
@@ -379,7 +406,10 @@ export default function UploadPage() {
               <p className="mb-6 max-w-md text-center text-muted-foreground">
                 Our template library is currently under development. Check back soon for a variety of professional templates!
               </p>
-              <Button variant="outline" onClick={() => document.querySelector('[data-value="upload"]')?.click()}>
+              <Button variant="outline" onClick={() => {
+                const uploadTab = document.querySelector('[data-value="upload"]') as HTMLElement
+                if (uploadTab) uploadTab.click()
+              }}>
                 Switch to File Upload
               </Button>
             </CardContent>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -43,6 +44,7 @@ import {
   AlertTriangle,
   Clock,
 } from "lucide-react"
+import { Label } from "@/components/ui/label"
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("general")
@@ -60,6 +62,11 @@ export default function SettingsPage() {
   }
   
   const [formData, setFormData] = useState(vendorData)
+  
+  // Initialize form
+  const form = useForm({
+    defaultValues: vendorData
+  })
   
   const handleInputChange = (field: string, value: string) => {
     setFormData({
@@ -194,7 +201,7 @@ export default function SettingsPage() {
                 <div className="grid gap-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <FormLabel>Display Language</FormLabel>
+                      <Label>Display Language</Label>
                       <Select defaultValue="en">
                         <SelectTrigger>
                           <SelectValue placeholder="Select language" />
@@ -209,7 +216,7 @@ export default function SettingsPage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <FormLabel>Currency</FormLabel>
+                      <Label>Currency</Label>
                       <Select defaultValue="inr">
                         <SelectTrigger>
                           <SelectValue placeholder="Select currency" />
@@ -233,7 +240,7 @@ export default function SettingsPage() {
                 <div className="grid gap-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <FormLabel>Default Print Quality</FormLabel>
+                      <Label>Default Print Quality</Label>
                       <Select defaultValue="standard">
                         <SelectTrigger>
                           <SelectValue placeholder="Select quality" />
@@ -247,7 +254,7 @@ export default function SettingsPage() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <FormLabel>Default Paper Type</FormLabel>
+                      <Label>Default Paper Type</Label>
                       <Select defaultValue="bond">
                         <SelectTrigger>
                           <SelectValue placeholder="Select paper type" />
@@ -319,7 +326,7 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <FormLabel>Store Name</FormLabel>
+                    <Label>Store Name</Label>
                     <Input
                       placeholder="Enter store name"
                       value={formData.storeName}
@@ -328,7 +335,7 @@ export default function SettingsPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <FormLabel>Store Description</FormLabel>
+                    <Label>Store Description</Label>
                     <Textarea
                       placeholder="Describe your printing business"
                       className="min-h-[120px]"
@@ -338,7 +345,7 @@ export default function SettingsPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <FormLabel>Tax ID / GSTIN</FormLabel>
+                    <Label>Tax ID / GSTIN</Label>
                     <Input
                       placeholder="Enter your GSTIN"
                       value={formData.taxId}
@@ -349,7 +356,7 @@ export default function SettingsPage() {
                 
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <FormLabel>Email Address</FormLabel>
+                    <Label>Email Address</Label>
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-muted-foreground" />
                       <Input
@@ -362,7 +369,7 @@ export default function SettingsPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <FormLabel>Phone Number</FormLabel>
+                    <Label>Phone Number</Label>
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-muted-foreground" />
                       <Input
@@ -375,7 +382,7 @@ export default function SettingsPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <FormLabel>Physical Address</FormLabel>
+                    <Label>Physical Address</Label>
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 text-muted-foreground mt-2.5" />
                       <Textarea
@@ -388,7 +395,7 @@ export default function SettingsPage() {
                   </div>
                   
                   <div className="space-y-2">
-                    <FormLabel>Website</FormLabel>
+                    <Label>Website</Label>
                     <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-muted-foreground" />
                       <Input

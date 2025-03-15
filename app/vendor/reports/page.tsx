@@ -28,10 +28,20 @@ import {
   Users,
   Package,
 } from "lucide-react"
+import React from "react"
 
 export default function ReportsPage() {
   const [reportPeriod, setReportPeriod] = useState("this-month")
   const [reportType, setReportType] = useState("sales")
+  
+  // Memoize change handlers to prevent new function creation on each render
+  const handleReportPeriodChange = React.useCallback((value: string) => {
+    setReportPeriod(value);
+  }, []);
+
+  const handleReportTypeChange = React.useCallback((value: string) => {
+    setReportType(value);
+  }, []);
   
   // Mock data for demonstration
   const salesData = [
@@ -59,6 +69,44 @@ export default function ReportsPage() {
     { name: "Local Business Group", orders: 10, spent: "₹5,830" },
   ]
   
+  // Memoize components that don't need to re-render when report type/period changes
+  const SalesChartPlaceholder = React.memo(() => (
+    <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md mb-4 relative">
+      <PieChart className="h-16 w-16 text-muted-foreground opacity-70" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
+      </div>
+    </div>
+  ));
+  
+  const TrendChartPlaceholder = React.memo(() => (
+    <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md mb-4">
+      <LineChart className="h-16 w-16 text-muted-foreground opacity-70" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
+      </div>
+    </div>
+  ));
+  
+  const BasicChartPlaceholder = React.memo(({ icon: Icon, text }: { icon: React.ElementType, text?: string }) => (
+    <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md">
+      <Icon className="h-16 w-16 text-muted-foreground opacity-70" />
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <p className="text-center text-sm text-muted-foreground">{text || "Chart visualization"} <br/> coming soon</p>
+      </div>
+    </div>
+  ));
+  
+  const ComingSoonSection = React.memo(({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) => (
+    <div className="flex items-center justify-center h-40 bg-muted/10 rounded-lg mb-4">
+      <div className="text-center">
+        <Icon className="h-10 w-10 text-muted-foreground mx-auto mb-2" />
+        <h3 className="text-lg font-medium">{title}</h3>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </div>
+    </div>
+  ));
+  
   return (
     <div className="p-4 md:p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
@@ -69,7 +117,7 @@ export default function ReportsPage() {
           </p>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Select defaultValue={reportPeriod} onValueChange={setReportPeriod}>
+          <Select defaultValue={reportPeriod} onValueChange={handleReportPeriodChange}>
             <SelectTrigger className="w-[160px]">
               <SelectValue placeholder="Select period" />
             </SelectTrigger>
@@ -91,7 +139,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      <Tabs defaultValue="sales" value={reportType} onValueChange={setReportType} className="mb-6">
+      <Tabs defaultValue="sales" value={reportType} onValueChange={handleReportTypeChange} className="mb-6">
         <TabsList className="mb-4">
           <TabsTrigger value="sales">Sales Report</TabsTrigger>
           <TabsTrigger value="services">Services</TabsTrigger>
@@ -151,12 +199,7 @@ export default function ReportsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md mb-4 relative">
-                  <PieChart className="h-16 w-16 text-muted-foreground opacity-70" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
-                  </div>
-                </div>
+                <SalesChartPlaceholder />
                 <div className="space-y-2">
                   {salesData.map((item, index) => (
                     <div key={index} className="flex items-center justify-between">
@@ -185,12 +228,7 @@ export default function ReportsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md mb-4">
-                  <LineChart className="h-16 w-16 text-muted-foreground opacity-70" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
-                  </div>
-                </div>
+                <TrendChartPlaceholder />
                 <div className="grid grid-cols-6 gap-1">
                   {monthlyRevenue.map((month, index) => (
                     <div key={index} className="flex flex-col items-center">
@@ -378,12 +416,7 @@ export default function ReportsPage() {
                 <CardDescription>New customers over time</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md">
-                  <LineChart className="h-16 w-16 text-muted-foreground opacity-70" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
-                  </div>
-                </div>
+                <BasicChartPlaceholder icon={LineChart} text="Customer acquisition" />
               </CardContent>
             </Card>
             
@@ -393,35 +426,26 @@ export default function ReportsPage() {
                 <CardDescription>Distribution by type and location</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[250px] flex items-center justify-center bg-muted/10 rounded-md">
-                  <PieChart className="h-16 w-16 text-muted-foreground opacity-70" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-center text-sm text-muted-foreground">Chart visualization <br/> coming soon</p>
-                  </div>
-                </div>
+                <BasicChartPlaceholder icon={PieChart} text="Customer demographics" />
               </CardContent>
             </Card>
           </div>
         </TabsContent>
         
         <TabsContent value="services" className="m-0">
-          <div className="flex items-center justify-center h-40 bg-muted/10 rounded-lg mb-4">
-            <div className="text-center">
-              <Printer className="h-10 w-10 text-muted-foreground mx-auto mb-2" />
-              <h3 className="text-lg font-medium">Services Reports</h3>
-              <p className="text-sm text-muted-foreground">Detailed service analytics coming soon...</p>
-            </div>
-          </div>
+          <ComingSoonSection 
+            icon={Printer} 
+            title="Services Reports" 
+            description="Detailed service analytics coming soon..." 
+          />
         </TabsContent>
         
         <TabsContent value="inventory" className="m-0">
-          <div className="flex items-center justify-center h-40 bg-muted/10 rounded-lg mb-4">
-            <div className="text-center">
-              <Package className="h-10 w-10 text-muted-foreground mx-auto mb-2" />
-              <h3 className="text-lg font-medium">Inventory Reports</h3>
-              <p className="text-sm text-muted-foreground">Inventory tracking and analytics coming soon...</p>
-            </div>
-          </div>
+          <ComingSoonSection 
+            icon={Package} 
+            title="Inventory Reports" 
+            description="Inventory tracking and analytics coming soon..." 
+          />
         </TabsContent>
       </Tabs>
     </div>

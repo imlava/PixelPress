@@ -191,9 +191,9 @@ export default function CheckoutPage() {
                         <SelectValue placeholder="Select a store" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="store1">KPRO Store - Indiranagar</SelectItem>
-                        <SelectItem value="store2">KPRO Store - Koramangala</SelectItem>
-                        <SelectItem value="store3">KPRO Store - HSR Layout</SelectItem>
+                        <SelectItem value="store1">PixelPress Store - Indiranagar</SelectItem>
+                        <SelectItem value="store2">PixelPress Store - Koramangala</SelectItem>
+                        <SelectItem value="store3">PixelPress Store - HSR Layout</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
                         <MapPin className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-medium">KPRO Store - Indiranagar</h3>
+                        <h3 className="font-medium">PixelPress Store - Indiranagar</h3>
                         <p className="text-sm text-muted-foreground">
                           123 12th Main Road, Indiranagar, Bangalore - 560008
                         </p>

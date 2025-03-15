@@ -19,7 +19,7 @@ export default function VendorIndexPage() {
           <Printer className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h1 className="text-xl font-semibold">KPRO Vendor Portal</h1>
+          <h1 className="text-xl font-semibold">PixelPress Vendor Portal</h1>
           <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>

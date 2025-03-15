@@ -69,7 +69,7 @@ export default function VendorLayout({ children }: { children: React.ReactNode }
         <div className="flex h-16 items-center justify-between border-b px-4">
           <Link href="/vendor/dashboard" className="flex items-center gap-1.5">
             <Printer className="h-5 w-5 text-primary" />
-            <span className="font-semibold">KPRO Vendor Portal</span>
+            <span className="font-semibold">PixelPress Vendor Portal</span>
           </Link>
           <Button 
             variant="ghost" 
@@ -103,10 +103,10 @@ export default function VendorLayout({ children }: { children: React.ReactNode }
             <div className="rounded-lg border bg-card p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary">
-                  <span className="text-sm font-medium text-primary-foreground">KP</span>
+                  <span className="text-sm font-medium text-primary-foreground">PP</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium">KPRO Indiranagar</p>
+                  <p className="text-sm font-medium">PixelPress Indiranagar</p>
                   <p className="text-xs text-muted-foreground">Store ID: #512</p>
                 </div>
               </div>
@@ -144,7 +144,7 @@ export default function VendorLayout({ children }: { children: React.ReactNode }
           
           <div className="flex items-center gap-1.5">
             <Printer className="h-5 w-5 text-primary" />
-            <h1 className="font-semibold">KPRO Vendor Portal</h1>
+            <h1 className="font-semibold">PixelPress Vendor Portal</h1>
           </div>
           
           <div className="flex items-center gap-3">

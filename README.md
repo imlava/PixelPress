@@ -1,6 +1,6 @@
-# KPRO Print Service (KPPS)
+# PixelPress Print Service
 
-A modern web application for managing print orders and services. KPPS is built with Next.js, React, and Tailwind CSS, providing a responsive and intuitive interface for both customers and vendors.
+A modern web application for managing print orders and services. PixelPress is built with Next.js, React, and Tailwind CSS, providing a responsive and intuitive interface for both customers and vendors.
 
 ## Features
 
@@ -27,8 +27,8 @@ A modern web application for managing print orders and services. KPPS is built w
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/imlava/KPPS.git
-   cd KPPS
+   git clone https://github.com/yourusername/pixelpress-print-service.git
+   cd pixelpress-print-service
    ```
 
 2. Install dependencies:

@@ -22,9 +22,39 @@ export default function SchedulePage() {
   const [currentDate, setCurrentDate] = useState(new Date())
   
   // Mock data for demonstration
-  const scheduledOrders = [
+  const scheduledJobs = [
     {
-      id: "KPRO-7654321",
+      id: "PP-7654321",
+      customer: "Rahul Sharma",
+      document: "Project_Report.pdf",
+      scheduledStart: "2023-11-05T10:00:00",
+      scheduledEnd: "2023-11-05T11:30:00",
+      status: "In Progress",
+      assignedTo: "Operator 1",
+      machine: "HP Color LaserJet Pro M479fdw",
+    },
+    {
+      id: "PP-7654322",
+      customer: "Priya Patel",
+      document: "Wedding_Invitations.pdf",
+      scheduledStart: "2023-11-05T12:00:00",
+      scheduledEnd: "2023-11-05T15:00:00",
+      status: "Scheduled",
+      assignedTo: "Operator 2",
+      machine: "Canon imagePRESS C710",
+    },
+    {
+      id: "PP-7654323",
+      customer: "Amit Singh",
+      document: "Corporate_Brochures.pdf",
+      scheduledStart: "2023-11-05T15:30:00",
+      scheduledEnd: "2023-11-05T17:30:00",
+      status: "Scheduled",
+      assignedTo: "Operator 1",
+      machine: "HP DesignJet T730",
+    },
+    {
+      id: "PP-7654324",
       customer: "John Doe",
       type: "Printing",
       time: "10:00 AM",
@@ -33,7 +63,7 @@ export default function SchedulePage() {
       date: new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())
     },
     {
-      id: "KPRO-7654322",
+      id: "PP-7654325",
       customer: "Jane Smith",
       type: "Binding",
       time: "2:00 PM",
@@ -42,7 +72,7 @@ export default function SchedulePage() {
       date: new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())
     },
     {
-      id: "KPRO-7654323",
+      id: "PP-7654326",
       customer: "Mike Johnson",
       type: "Consultation",
       time: "11:30 AM",
@@ -73,6 +103,16 @@ export default function SchedulePage() {
     "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", 
     "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
   ]
+  
+  // Filter events for a specific time slot and day
+  const getEventsForTimeSlot = (day: Date, time: string) => {
+    return scheduledJobs.filter(job => 
+      job.date && 
+      job.date.getDate() === day.getDate() && 
+      job.date.getMonth() === day.getMonth() && 
+      job.time === time
+    );
+  }
   
   return (
     <div className="p-4 md:p-6">
@@ -159,11 +199,7 @@ export default function SchedulePage() {
                       {time}
                     </div>
                     {weekDays.map((day, dayIndex) => {
-                      const eventsAtThisTime = scheduledOrders.filter(order => 
-                        order.date.getDate() === day.getDate() && 
-                        order.date.getMonth() === day.getMonth() && 
-                        order.time === time
-                      )
+                      const eventsAtThisTime = getEventsForTimeSlot(day, time);
                       
                       return (
                         <div key={dayIndex} className="py-1 px-2 min-h-[70px] relative">
@@ -195,11 +231,7 @@ export default function SchedulePage() {
               </div>
               <div className="divide-y">
                 {timeSlots.map((time, index) => {
-                  const eventsAtThisTime = scheduledOrders.filter(order => 
-                    order.date.getDate() === currentDate.getDate() && 
-                    order.date.getMonth() === currentDate.getMonth() && 
-                    order.time === time
-                  )
+                  const eventsAtThisTime = getEventsForTimeSlot(currentDate, time);
                   
                   return (
                     <div key={index} className="flex">
@@ -256,25 +288,27 @@ export default function SchedulePage() {
           </CardHeader>
           <CardContent className="px-4 pb-4">
             <div className="space-y-3">
-              {scheduledOrders.map((order, index) => (
+              {scheduledJobs.map((job, index) => (
                 <div key={index} className="flex items-start gap-3 p-2 rounded-md hover:bg-muted/50">
-                  <div className={`mt-0.5 p-2 rounded-md ${order.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                    {order.type === 'Printing' ? <Printer className="h-4 w-4" /> :
-                     order.type === 'Binding' ? <Package className="h-4 w-4" /> :
-                     order.type === 'Consultation' ? <Users className="h-4 w-4" /> :
+                  <div className={`mt-0.5 p-2 rounded-md ${job.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                    {job.type === 'Printing' ? <Printer className="h-4 w-4" /> :
+                     job.type === 'Binding' ? <Package className="h-4 w-4" /> :
+                     job.type === 'Consultation' ? <Users className="h-4 w-4" /> :
                      <FileText className="h-4 w-4" />}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <p className="font-medium text-sm">{order.customer}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {order.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      </p>
+                      <p className="font-medium text-sm">{job.customer}</p>
+                      {job.date && (
+                        <p className="text-xs text-muted-foreground">
+                          {job.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </p>
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-0.5">{order.type}</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">{job.type}</p>
                     <div className="flex items-center gap-1.5 mt-1">
                       <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="text-xs">{order.time} ({order.duration})</span>
+                      <span className="text-xs">{job.time} ({job.duration})</span>
                     </div>
                   </div>
                 </div>

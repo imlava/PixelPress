@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "KPRO - Print Services",
+  title: "PixelPress - Print Services",
   description: "Professional printing services at your fingertips",
   generator: 'v0.dev'
 }

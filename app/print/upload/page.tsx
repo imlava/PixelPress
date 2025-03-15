@@ -384,8 +384,8 @@ export default function UploadPage() {
                         <p className="font-medium">Support Available</p>
                         <p className="text-sm text-muted-foreground">
                           Contact our team at{" "}
-                          <a href="mailto:support@kpro.com" className="text-primary hover:underline">
-                            support@kpro.com
+                          <a href="mailto:support@pixelpress.ink" className="text-primary hover:underline">
+                            support@pixelpress.ink
                           </a>{" "}
                           for assistance
                         </p>

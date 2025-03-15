@@ -17,7 +17,7 @@ export default function PrintLayout({ children }: { children: React.ReactNode })
             </Button>
             <div className="flex items-center gap-1.5">
               <Printer className="h-5 w-5 text-primary" />
-              <h1 className="font-semibold">KPRO Print Service</h1>
+              <h1 className="font-semibold">PixelPress Print Service</h1>
             </div>
           </div>
           <Tabs defaultValue="upload" className="hidden sm:block">
@@ -35,8 +35,8 @@ export default function PrintLayout({ children }: { children: React.ReactNode })
           </Tabs>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
-              <Link href="https://kpro.io" className="gap-1">
-                Back to KPRO <ChevronRight className="h-4 w-4" />
+              <Link href="https://pixelpress.ink" className="gap-1">
+                Back to PixelPress <ChevronRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>

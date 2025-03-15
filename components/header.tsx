@@ -89,7 +89,7 @@ export default function Header() {
             <div className="border-b px-4 py-3">
               <div className="flex items-center justify-between">
                 <Link href="/" className="flex items-center space-x-2">
-                  <span className="text-xl font-bold">KPRO</span>
+                  <span className="text-xl font-bold">PixelPress</span>
                 </Link>
                 <SheetClose asChild>
                   <Button variant="ghost" size="icon" className="h-10 w-10" aria-label="Close menu">
@@ -207,10 +207,10 @@ export default function Header() {
 
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <span className="text-xs font-bold">K</span>
+            <span className="text-xs font-bold">P</span>
             <div className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-primary">P</div>
           </div>
-          <span className="hidden text-xl font-bold md:inline-block">KPRO</span>
+          <span className="hidden text-xl font-bold md:inline-block">PixelPress</span>
         </Link>
 
         <nav className="hidden md:flex md:gap-1 lg:gap-2">

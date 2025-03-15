@@ -51,12 +51,12 @@ export default function SettingsPage() {
   
   // Mock data for demonstration
   const vendorData = {
-    storeName: "KPRO Indiranagar",
+    storeName: "PixelPress Indiranagar",
     storeDescription: "Premier printing services for businesses and individuals",
-    email: "indiranagar@kpro.com",
+    email: "indiranagar@pixelpress.ink",
     phone: "+91 98765 43210",
     address: "123 MG Road, Indiranagar, Bangalore - 560038",
-    website: "https://kpro.com",
+    website: "https://pixelpress.ink",
     operatingHours: "Mon-Sat: 9:00 AM - 8:00 PM, Sun: Closed",
     taxId: "GSTIN: 29AABCU9603R1ZX",
   }

@@ -24,7 +24,7 @@ export default function PrintPage() {
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-2">
           <Printer className="h-6 w-6 text-primary" />
-          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">KPRO Print Service</h1>
+          <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">PixelPress Print Service</h1>
         </div>
         <p className="mt-2 max-w-2xl mx-auto text-muted-foreground">
           High-quality printing services for all your documents. Upload your files, customize your printing options, and get them delivered or pick them up.
@@ -150,7 +150,7 @@ export default function PrintPage() {
       </div>
       
       <div className="mt-16 max-w-5xl mx-auto">
-        <h2 className="text-2xl font-semibold tracking-tight mb-6 text-center">Why Choose KPRO Print Service?</h2>
+        <h2 className="text-2xl font-semibold tracking-tight mb-6 text-center">Why Choose PixelPress Print Service?</h2>
         
         <div className="grid gap-8 md:grid-cols-3">
           <div className="flex flex-col items-center text-center">

@@ -63,46 +63,46 @@ export default function OrdersPage() {
   // Mock data for demonstration
   const orders = [
     {
-      id: "KPRO-7654321",
-      customer: "John Doe",
+      id: "PP-7654321",
+      customer: "Rahul Sharma",
       document: "Project_Report.pdf",
-      status: "pending",
+      status: "Completed",
       placed: "Today, 10:15 AM",
       due: "Tomorrow, 2:00 PM",
-      total: "₹216.00",
+      total: "₹1,250.00",
       pages: 5,
       type: "Spiral Binding, A4 Color"
     },
     {
-      id: "KPRO-7654320",
-      customer: "Jane Smith",
+      id: "PP-7654320",
+      customer: "Priya Patel",
       document: "Resume_Final.docx",
-      status: "processing",
+      status: "Processing",
       placed: "Today, 9:30 AM",
       due: "Tomorrow, 12:00 PM",
-      total: "₹180.00",
+      total: "₹850.00",
       pages: 2,
       type: "Premium Paper, A4 Color"
     },
     {
-      id: "KPRO-7654319",
-      customer: "Mike Johnson",
+      id: "PP-7654319",
+      customer: "Amit Singh",
       document: "Business_Proposal.pdf",
-      status: "ready",
+      status: "Ready",
       placed: "Yesterday, 3:45 PM",
       due: "Today, 5:00 PM",
-      total: "₹350.00",
+      total: "₹2,100.00",
       pages: 15,
       type: "Booklet Binding, A4 Color"
     },
     {
-      id: "KPRO-7654318",
-      customer: "Sara Williams",
+      id: "PP-7654318",
+      customer: "Sneha Gupta",
       document: "Research_Paper.pdf",
-      status: "completed",
+      status: "Scheduled",
       placed: "Yesterday, 11:20 AM",
       due: "Today, 10:00 AM",
-      total: "₹420.00",
+      total: "₹1,800.00",
       pages: 22,
       type: "Spiral Binding, A4 Color"
     }

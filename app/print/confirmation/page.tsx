@@ -22,7 +22,7 @@ import { Separator } from "@/components/ui/separator"
 
 export default function ConfirmationPage() {
   const router = useRouter()
-  const orderNumber = "KPRO-" + Math.floor(1000000 + Math.random() * 9000000)
+  const orderNumber = "PP-" + Math.floor(1000000 + Math.random() * 9000000)
   
   return (
     <div className="animate-in container mx-auto px-4 py-12">
@@ -180,7 +180,7 @@ export default function ConfirmationPage() {
                       <span className="font-medium">Store Pickup</span>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      KPRO Store - Indiranagar<br />
+                      PixelPress Store - Indiranagar<br />
                       123 12th Main Road, Indiranagar<br />
                       Bangalore - 560008
                     </p>
@@ -287,7 +287,7 @@ export default function ConfirmationPage() {
                   <div>
                     <p className="font-medium">Need Help?</p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      For any queries related to your order, please contact our customer support team at support@kpro.com or call us at +91-1800-123-4567.
+                      For any queries related to your order, please contact our customer support team at support@pixelpress.ink or call us at +91-1800-123-4567.
                     </p>
                   </div>
                 </div>

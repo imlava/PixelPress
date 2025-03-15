@@ -17,11 +17,14 @@ export default function PrintLayout({ children }: { children: React.ReactNode })
             </Button>
             <div className="flex items-center gap-1.5">
               <Printer className="h-5 w-5 text-primary" />
-              <h1 className="font-semibold">PixelPress Print Service</h1>
+              <h1 className="text-sm md:text-base font-semibold whitespace-nowrap">PixelPress Print</h1>
             </div>
           </div>
           <Tabs defaultValue="upload" className="hidden sm:block">
-            <TabsList className="grid w-[400px] grid-cols-3">
+            <TabsList className="grid w-[480px] grid-cols-4">
+              <TabsTrigger value="products" asChild>
+                <Link href="/print/products" className="cursor-pointer">Products</Link>
+              </TabsTrigger>
               <TabsTrigger value="upload" asChild>
                 <Link href="/print/upload" className="cursor-pointer">Upload</Link>
               </TabsTrigger>

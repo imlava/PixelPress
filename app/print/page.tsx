@@ -185,10 +185,15 @@ export default function PrintPage() {
         </div>
       </div>
       
-      <div className="mt-16 text-center">
+      <div className="mt-16 text-center space-y-4">
         <Button size="lg" onClick={() => router.push("/print/upload")} className="gap-2">
           Start Printing Now <ChevronRight className="h-4 w-4" />
         </Button>
+        <div>
+          <Button variant="link" onClick={() => router.push("/print/products")} className="gap-1">
+            View All Print Products <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Star, Clock, Truck, ArrowRight } from "lucide-react"
@@ -15,6 +18,7 @@ const featuredItems = [
     deliveryTime: "2-3 days",
     discount: "15% OFF",
     popular: true,
+    category: "business-cards"
   },
   {
     id: 2,
@@ -24,6 +28,7 @@ const featuredItems = [
     price: "₹1,499",
     rating: 4.9,
     deliveryTime: "3-5 days",
+    category: "photos"
   },
   {
     id: 3,
@@ -34,6 +39,7 @@ const featuredItems = [
     rating: 4.7,
     deliveryTime: "4-6 days",
     discount: "10% OFF",
+    category: "photos"
   },
   {
     id: 4,
@@ -44,10 +50,17 @@ const featuredItems = [
     rating: 4.6,
     deliveryTime: "1-2 days",
     popular: true,
+    category: "documents"
   },
 ]
 
 export default function FeaturedPrints() {
+  const router = useRouter()
+  
+  const handleOrderNow = (category: string) => {
+    router.push(`/print/upload?category=${category}`)
+  }
+  
   return (
     <section className="mb-16 py-4">
       <div className="mb-8 flex items-end justify-between">
@@ -122,7 +135,12 @@ export default function FeaturedPrints() {
                 <Truck className="h-3.5 w-3.5" />
                 Free delivery
               </div>
-              <Button size="sm" variant="ghost" className="group-hover:bg-primary group-hover:text-primary-foreground">
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="group-hover:bg-primary group-hover:text-primary-foreground"
+                onClick={() => handleOrderNow(item.category)}
+              >
                 Order Now
               </Button>
             </CardFooter>

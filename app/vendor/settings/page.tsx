@@ -223,9 +223,6 @@ export default function SettingsPage() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="inr">Indian Rupee (₹)</SelectItem>
-                          <SelectItem value="usd">US Dollar ($)</SelectItem>
-                          <SelectItem value="eur">Euro (€)</SelectItem>
-                          <SelectItem value="gbp">British Pound (£)</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

@@ -80,7 +80,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
     pages: 5,
     type: "Spiral Binding, A4 Color",
     deliveryMethod: "Store Pickup",
-    storeLocation: "KPRO Store - Indiranagar, 123 12th Main Road, Indiranagar, Bangalore - 560008",
+    storeLocation: "PixelPress Store - Indiranagar, 123 12th Main Road, Indiranagar, Bangalore - 560008",
     paymentMethod: "Cash on Delivery",
     subtotal: "₹180.00",
     taxes: "₹36.00",

@@ -144,7 +144,7 @@ export default function VendorLayout({ children }: { children: React.ReactNode }
           
           <div className="flex items-center gap-1.5">
             <Printer className="h-5 w-5 text-primary" />
-            <h1 className="font-semibold">PixelPress Vendor Portal</h1>
+            <h1 className="text-base font-semibold truncate">PixelPress Vendor Portal</h1>
           </div>
           
           <div className="flex items-center gap-3">

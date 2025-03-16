@@ -49,6 +49,7 @@ import {
   Check,
   ArrowUpDown,
   Trash2,
+  IndianRupee,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -76,7 +77,7 @@ export default function VendorDashboard() {
   // Mock data for demonstration
 const orders = [
   {
-      id: "KPRO-7654321",
+      id: "PP-7654321",
     customer: "John Doe",
       document: "Project_Report.pdf",
       status: "pending",
@@ -87,7 +88,7 @@ const orders = [
       type: "Spiral Binding, A4 Color"
     },
     {
-      id: "KPRO-7654320",
+      id: "PP-7654320",
     customer: "Jane Smith",
       document: "Resume_Final.docx",
     status: "processing",
@@ -98,7 +99,7 @@ const orders = [
       type: "Premium Paper, A4 Color"
     },
     {
-      id: "KPRO-7654319",
+      id: "PP-7654319",
       customer: "Mike Johnson",
       document: "Business_Proposal.pdf",
     status: "ready",
@@ -109,7 +110,7 @@ const orders = [
       type: "Booklet Binding, A4 Color"
     },
     {
-      id: "KPRO-7654318",
+      id: "PP-7654318",
       customer: "Sara Williams",
       document: "Research_Paper.pdf",
       status: "completed",
@@ -120,7 +121,7 @@ const orders = [
       type: "Spiral Binding, A4 Color"
     },
     {
-      id: "KPRO-7654317",
+      id: "PP-7654317",
       customer: "Alex Chen",
       document: "Photo_Album.zip",
       status: "pending",
@@ -131,7 +132,7 @@ const orders = [
       type: "Photo Paper, Glossy Finish"
     },
     {
-      id: "KPRO-7654316",
+      id: "PP-7654316",
       customer: "Robert Brown",
       document: "Conference_Posters.pdf",
       status: "processing",
@@ -142,7 +143,7 @@ const orders = [
       type: "Poster Print, A2 Size"
     },
     {
-      id: "KPRO-7654315",
+      id: "PP-7654315",
       customer: "Emily Davis",
       document: "Wedding_Invitations.pdf",
       status: "ready",
@@ -265,7 +266,7 @@ const getStatusBadge = (status: string) => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 pt-3 px-4">
             <CardTitle className="text-sm font-medium">This Week's Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <IndianRupee className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="pt-0 pb-3 px-4">
             <div className="text-2xl font-bold">₹4,325.50</div>

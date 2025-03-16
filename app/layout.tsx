@@ -1,8 +1,8 @@
 import type React from "react"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Header from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
+import ConditionalHeader from "@/components/conditional-header"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,8 +21,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <Header />
-          <main className="min-h-screen bg-gray-50">{children}</main>
+          <ConditionalHeader />
+          {children}
         </ThemeProvider>
       </body>
     </html>

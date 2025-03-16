@@ -32,50 +32,50 @@ import { Eye, FileDown, Printer, Search } from "lucide-react"
 // Mock data for orders
 const orders = [
   {
-    id: "ORD-001-2023",
+    id: "PP-001-2023",
     date: "2023-08-15T14:30:00",
     status: "completed",
-    total: 24.99,
+    total: 1499,
     items: [
-      { name: "Business Cards (Premium)", quantity: 100, price: 24.99 }
+      { name: "Business Cards (Premium)", quantity: 100, price: 1499 }
     ]
   },
   {
-    id: "ORD-002-2023",
+    id: "PP-002-2023",
     date: "2023-09-02T10:15:00",
     status: "processing",
-    total: 35.50,
+    total: 2550,
     items: [
-      { name: "Flyers (Matte Finish)", quantity: 50, price: 35.50 }
+      { name: "Flyers (Matte Finish)", quantity: 50, price: 2550 }
     ]
   },
   {
-    id: "ORD-003-2023",
+    id: "PP-003-2023",
     date: "2023-09-20T16:45:00",
     status: "shipped",
-    total: 65.75,
+    total: 4775,
     items: [
-      { name: "Brochures (Glossy)", quantity: 25, price: 45.75 },
-      { name: "Business Cards (Standard)", quantity: 50, price: 20.00 }
+      { name: "Brochures (Glossy)", quantity: 25, price: 3275 },
+      { name: "Business Cards (Standard)", quantity: 50, price: 1500 }
     ]
   },
   {
-    id: "ORD-004-2023",
+    id: "PP-004-2023",
     date: "2023-10-05T09:30:00",
     status: "delivered",
-    total: 115.25,
+    total: 8525,
     items: [
-      { name: "Posters (Large Format)", quantity: 5, price: 75.00 },
-      { name: "Stickers (Custom)", quantity: 100, price: 40.25 }
+      { name: "Posters (Large Format)", quantity: 5, price: 5000 },
+      { name: "Stickers (Custom)", quantity: 100, price: 3525 }
     ]
   },
   {
-    id: "ORD-005-2023",
+    id: "PP-005-2023",
     date: "2023-10-18T13:20:00",
     status: "cancelled",
-    total: 18.99,
+    total: 1899,
     items: [
-      { name: "Postcards (Standard)", quantity: 25, price: 18.99 }
+      { name: "Postcards (Standard)", quantity: 25, price: 1899 }
     ]
   }
 ]
@@ -90,9 +90,10 @@ const formatDate = (dateString: string) => {
 }
 
 const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'INR',
+    maximumFractionDigits: 0
   }).format(amount)
 }
 

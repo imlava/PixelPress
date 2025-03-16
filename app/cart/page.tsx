@@ -15,7 +15,7 @@ export default function CartPage() {
       id: 1,
       name: "Document Print",
       description: "A4, Double-sided, Color, Spiral Binding",
-      price: 124.50,
+      price: 1245,
       pages: 15,
       quantity: 1
     },
@@ -23,15 +23,23 @@ export default function CartPage() {
       id: 2,
       name: "Business Cards",
       description: "Premium Paper, Full Color, 100 cards",
-      price: 75.00,
+      price: 750,
       quantity: 1
     }
   ])
 
   const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  const deliveryFee = 25.00
+  const deliveryFee = 250
   const tax = subtotal * 0.18
   const total = subtotal + deliveryFee + tax
+  
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(amount)
+  }
 
   const removeItem = (id: number) => {
     setItems(items.filter(item => item.id !== id))
@@ -85,7 +93,7 @@ export default function CartPage() {
                       </div>
                       <div className="flex items-start gap-4 text-right">
                         <div>
-                          <div className="font-medium">₹{item.price.toFixed(2)}</div>
+                          <div className="font-medium">{formatCurrency(item.price)}</div>
                           <div className="mt-1 flex items-center gap-1">
                             <Button 
                               variant="outline" 
@@ -153,15 +161,15 @@ export default function CartPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>₹{subtotal.toFixed(2)}</span>
+                    <span>{formatCurrency(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Delivery Fee</span>
-                    <span>₹{deliveryFee.toFixed(2)}</span>
+                    <span>{formatCurrency(deliveryFee)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Tax (18%)</span>
-                    <span>₹{tax.toFixed(2)}</span>
+                    <span>{formatCurrency(tax)}</span>
                   </div>
                 </div>
                 
@@ -169,7 +177,7 @@ export default function CartPage() {
                 
                 <div className="flex justify-between font-medium">
                   <span>Total</span>
-                  <span className="text-lg">₹{total.toFixed(2)}</span>
+                  <span className="text-lg">{formatCurrency(total)}</span>
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col gap-4 pt-0">

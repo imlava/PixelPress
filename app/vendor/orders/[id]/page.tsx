@@ -1,3 +1,7 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -58,6 +62,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { toast } from "@/components/ui/use-toast"
 
 interface Timeline {
   time: string
@@ -848,8 +853,16 @@ const orders: Orders = {
 }
 
 export default function OrderDetailsPage({ params }: { params: { id: string } }) {
-  // Get order details from mock data
-  const orderId = params.id
+  const router = useRouter()
+  const routeParams = useParams()
+  const [orderStatus, setOrderStatus] = useState<string>("ready")
+  const [isUpdating, setIsUpdating] = useState<boolean>(false)
+  const [showCancelDialog, setShowCancelDialog] = useState<boolean>(false)
+  const [showIssueDialog, setShowIssueDialog] = useState<boolean>(false)
+  
+  // Get order details from mock data using useParams hook which is safe in client components
+  const orderId = typeof routeParams.id === 'string' ? routeParams.id : 
+                 (Array.isArray(routeParams.id) ? routeParams.id[0] : params.id as string)
   const order = orders[orderId]
   
   // Handle non-existent order
@@ -862,14 +875,42 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
           <p className="text-muted-foreground mb-6">
             The order you're looking for doesn't exist or has been removed.
           </p>
-          <Button variant="outline" asChild>
-            <Link href="/vendor/orders">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Orders
-            </Link>
+          <Button variant="outline" onClick={() => router.push("/vendor/orders")}>
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Orders
           </Button>
         </div>
       </div>
     )
+  }
+
+  const handleStatusChange = (value: string) => {
+    setOrderStatus(value)
+    setIsUpdating(true)
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsUpdating(false)
+      toast({
+        title: "Status Updated",
+        description: `Order status has been updated to ${value}`,
+      })
+    }, 1000)
+  }
+  
+  const handleCancelOrder = () => {
+    setIsUpdating(true)
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsUpdating(false)
+      setShowCancelDialog(false)
+      toast({
+        title: "Order Cancelled",
+        description: "The order has been cancelled successfully",
+        variant: "destructive",
+      })
+      router.push("/vendor/orders")
+    }, 1500)
   }
   
   const getStatusBadge = (status: string) => {
@@ -914,10 +955,8 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
-        <Button variant="ghost" className="mb-4 gap-2" asChild>
-          <Link href="/vendor/orders">
-            <ArrowLeft className="h-4 w-4" /> Back to Orders
-          </Link>
+        <Button variant="ghost" className="mb-4 gap-2" onClick={() => router.push("/vendor/orders")}>
+          <ArrowLeft className="h-4 w-4" /> Back to Orders
         </Button>
         
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -928,11 +967,69 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Current Status:</span>
-              {getStatusBadge(order.status)}
+              {getStatusBadge(orderStatus || order.status)}
             </div>
-            <div className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80">
-              Status: {order.status}
-            </div>
+            <Select value={orderStatus || order.status} onValueChange={handleStatusChange} disabled={isUpdating}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Update Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="processing">Processing</SelectItem>
+                <SelectItem value="ready">Ready for Pickup</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+              <DialogTrigger asChild>
+                <Button variant="destructive" size="sm">
+                  <XCircle className="mr-2 h-4 w-4" />
+                  Cancel Order
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Cancel Order</DialogTitle>
+                  <DialogDescription>
+                    Are you sure you want to cancel this order? This action cannot be undone.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-4">
+                  <div className="rounded-lg border-2 border-destructive/20 bg-destructive/5 p-4">
+                    <div className="flex items-start gap-3">
+                      <AlertTriangle className="mt-0.5 h-5 w-5 text-destructive" />
+                      <div>
+                        <p className="font-medium text-destructive">Warning</p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          Cancelling this order will notify the customer and remove it from your active orders.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <label className="text-sm font-medium">Reason for cancellation</label>
+                    <Textarea 
+                      placeholder="Please provide a reason for cancellation..." 
+                      className="mt-1.5"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setShowCancelDialog(false)}>
+                    Keep Order
+                  </Button>
+                  <Button 
+                    variant="destructive" 
+                    onClick={handleCancelOrder}
+                    disabled={isUpdating}
+                  >
+                    {isUpdating ? "Cancelling..." : "Confirm Cancellation"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
@@ -941,7 +1038,10 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Order Details</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                Order Details
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4">
@@ -986,7 +1086,10 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
 
           <Card>
             <CardHeader>
-              <CardTitle>Order Timeline</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-primary" />
+                Order Timeline
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="relative">
@@ -1018,13 +1121,118 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                 ))}
               </div>
             </CardContent>
+            <CardFooter className="border-t bg-muted/50 px-6 py-4">
+              <div className="flex w-full items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <p className="text-sm text-muted-foreground">Deadline: <span className="font-medium text-foreground">{order.dates.due}</span></p>
+                </div>
+                <Dialog open={showIssueDialog} onOpenChange={setShowIssueDialog}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-1">
+                      <AlertCircle className="h-3.5 w-3.5" />
+                      Report Issue
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Report Issue with Order</DialogTitle>
+                      <DialogDescription>
+                        Report any problems with this order that need attention.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                      <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Issue Type</label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select issue type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="print-quality">Print Quality Issue</SelectItem>
+                            <SelectItem value="file-problem">File Problem</SelectItem>
+                            <SelectItem value="supply-shortage">Supply Shortage</SelectItem>
+                            <SelectItem value="customer-request">Customer Special Request</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="mt-4">
+                        <label className="text-sm font-medium">Description</label>
+                        <Textarea 
+                          placeholder="Describe the issue in detail..." 
+                          className="mt-1.5"
+                          rows={4}
+                        />
+                      </div>
+                      
+                      <div className="mt-4">
+                        <label className="text-sm font-medium">Priority</label>
+                        <Select defaultValue="normal">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select priority" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="low">Low</SelectItem>
+                            <SelectItem value="normal">Normal</SelectItem>
+                            <SelectItem value="high">High</SelectItem>
+                            <SelectItem value="urgent">Urgent</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setShowIssueDialog(false)}>
+                        Cancel
+                      </Button>
+                      <Button onClick={() => {
+                        setShowIssueDialog(false)
+                        toast({
+                          title: "Issue Reported",
+                          description: "Your issue has been submitted and will be addressed soon.",
+                        })
+                      }}>
+                        Submit Issue
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Image className="h-5 w-5 text-primary" />
+                Print Preview
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-[3/4] rounded-lg border-2 border-dashed bg-muted/50 flex items-center justify-center">
+                <div className="text-center">
+                  <FileText className="h-12 w-12 mx-auto text-muted-foreground/40" />
+                  <p className="mt-2 text-muted-foreground">
+                    Preview not available for this document
+                  </p>
+                  <Button variant="outline" size="sm" className="mt-4 gap-2">
+                    <Download className="h-4 w-4" />
+                    Generate Preview
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </div>
 
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Customer Details</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                Customer Details
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4">
@@ -1077,13 +1285,27 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                     </div>
                   </div>
                 </div>
+                
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" className="flex-1 gap-1">
+                    <SendHorizonal className="h-3.5 w-3.5" />
+                    Email
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1 gap-1">
+                    <Phone className="h-3.5 w-3.5" />
+                    Call
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Price Breakdown</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                Price Breakdown
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4">
@@ -1112,38 +1334,49 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
                   <span>Total Amount</span>
                   <span>{formatCurrency(order.pricing.total)}</span>
                 </div>
+                
+                <div className="rounded-lg bg-secondary p-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-muted-foreground" />
+                      <p className="text-sm font-medium">Payment Method</p>
+                    </div>
+                    <p className="text-sm">{order.payment.method}</p>
+                  </div>
+                </div>
               </div>
             </CardContent>
+            <CardFooter className="flex-col space-y-2 pt-0">
+              <Button className="w-full gap-2">
+                <FileText className="h-4 w-4" />
+                Print Invoice
+              </Button>
+            </CardFooter>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Actions</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Package className="h-5 w-5 text-primary" />
+                Actions
+              </CardTitle>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <Button className="w-full gap-2" asChild>
-                <Link href={`/vendor/orders/${order.id}/print`}>
-                  <Printer className="h-4 w-4" />
-                  Print Order Details
-                </Link>
+              <Button className="w-full gap-2">
+                <Printer className="h-4 w-4" />
+                Print Order Details
               </Button>
-              <Button variant="outline" className="w-full gap-2" asChild>
-                <Link href={`/vendor/orders/${order.id}/invoice`}>
-                  <Download className="h-4 w-4" />
-                  Download Invoice
-                </Link>
+              <Button variant="outline" className="w-full gap-2">
+                <Download className="h-4 w-4" />
+                Download Invoice
               </Button>
-              <Button variant="outline" className="w-full gap-2" asChild>
-                <Link href={`mailto:${order.customer.email}?subject=Your Order ${order.id}`}>
-                  <Mail className="h-4 w-4" />
-                  Email Customer
-                </Link>
+              <Button variant="outline" className="w-full gap-2">
+                <Mail className="h-4 w-4" />
+                Email Customer
               </Button>
-              <Button variant="outline" className="w-full gap-2 text-destructive hover:text-destructive" asChild>
-                <Link href={`/vendor/orders/${order.id}/issue`}>
-                  <AlertTriangle className="h-4 w-4" />
-                  Report Issue
-                </Link>
+              <Button variant="outline" className="w-full gap-2 text-destructive hover:text-destructive" onClick={() => setShowCancelDialog(true)}>
+                <AlertTriangle className="h-4 w-4" />
+                Report Issue
               </Button>
             </CardContent>
           </Card>

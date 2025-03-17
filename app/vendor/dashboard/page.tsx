@@ -298,7 +298,7 @@ const getStatusBadge = (status: string) => {
                 <TabsTrigger value="pending" className="text-xs sm:text-sm">Pending</TabsTrigger>
                 <TabsTrigger value="processing" className="text-xs sm:text-sm">Processing</TabsTrigger>
                 <TabsTrigger value="completed" className="text-xs sm:text-sm">Completed</TabsTrigger>
-              </TabsList>
+          </TabsList>
             </div>
             <TabsContent value="all" className="m-0">
               <div className="overflow-auto">
@@ -676,9 +676,9 @@ const getStatusBadge = (status: string) => {
                 <BellRing className="h-3.5 w-3.5" />
                 <span>View All Notifications</span>
               </Button>
-            </div>
-          </CardContent>
-        </Card>
+                </div>
+              </CardContent>
+            </Card>
       </div>
     </div>
   )
